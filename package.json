@@ -1,0 +1,28 @@
+{
+  "name": "clickstream",
+  "version": "1.0.0",
+  "description": "Ferramenta de coleta de movimento/click com JavaScript e Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luizcarlospedrosogomes/clickstream.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luizcarlospedrosogomes/clickstream/issues"
+  },
+  "homepage": "https://github.com/luizcarlospedrosogomes/clickstream#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.13",
+    "nodemon": "^2.0.6",
+    "require-dir": "^1.2.0"
+  }
+}
