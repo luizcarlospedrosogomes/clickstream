@@ -13,7 +13,21 @@ const projetoSchema = new Schema({
   criadoEm: {
     type: Date,
     default: Date.now
-  }
+  },
+  heatMaps:[
+    {
+      status: Boolean,
+      url: String,
+      name: String,
+      clicks:[{
+        x: String,
+        y: String,
+        date: Date
+      }]
+
+    }
+  ]
+  
 });
 
 module.exports = mongoose.model('projetos', projetoSchema);
