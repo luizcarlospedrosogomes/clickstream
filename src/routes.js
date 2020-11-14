@@ -2,8 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const Projeto = require("./controllers/ProjetoController")
+const Click   = require("./controllers/ClickController")
 
-router.get('/', Projeto.list)
+router.get('/projeto', Projeto.list)
 router.post('/projeto', Projeto.create)
+router.put('/projeto', Projeto.update)
+
+
+router.post('/click', Click.create)
+
 
 module.exports = router;

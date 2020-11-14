@@ -1,12 +1,12 @@
-
-const { update } = require('../models/Projeto');
 const Projeto = require('../models/Projeto');
 
 
 module.exports = {
 
     async list(req, res){
-        return res.status(200).json({msg: 'api ok'})
+        const projetos = await  Projeto.find({})
+
+        return res.status(200).json(projetos)
     },
 
     async create(req, res){
