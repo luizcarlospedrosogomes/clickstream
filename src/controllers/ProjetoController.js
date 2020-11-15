@@ -10,12 +10,8 @@ module.exports = {
     },
 
     async create(req, res){
-        const data = req.body
-        const novoProjeto = new Projeto({
-            status: data.status,
-            url: data.url,
-            name: data.name,
-        })
+        const data = req.body        
+        const novoProjeto = new Projeto(data)
 
         novoProjeto
             .save()

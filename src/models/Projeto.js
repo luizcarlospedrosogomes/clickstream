@@ -20,9 +20,10 @@ const projetoSchema = new Schema({
       url: String,
       name: String,
       clicks:[{
-        x: String,
-        y: String,
-        date: Date
+        x: Number,
+        y: Number,
+        date: Number,
+        event: String
       }]
 
     }

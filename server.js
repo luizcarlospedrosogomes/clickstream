@@ -1,11 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const express     = require('express');
+const bodyParser  = require('body-parser');
+const mongoose    = require('mongoose');
 const requireDir  = require('require-dir');
-
-const app = express();
+const cors        = require('cors')
+const app         = express();
 
 app.use(bodyParser.json());
+
+app.use(cors())
 
 mongoose
   .connect('mongodb://db:27017/crud-node-mongo-docker', {
@@ -19,5 +21,6 @@ mongoose
   });
 
 requireDir('./src/models');    
+
 app.use('/api', require('./src/routes'));  
 app.listen(9000, () => console.log('Server ativo na porta 9000'));
