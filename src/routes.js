@@ -9,7 +9,8 @@ router.post('/projeto', Projeto.create)
 router.put('/projeto', Projeto.update)
 
 
-router.post('/click', Click.create)
 
+router.post('/click', Click.create)
+router.post('/screenshot', Click.screenshot)
 
 module.exports = router;

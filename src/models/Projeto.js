@@ -19,6 +19,11 @@ const projetoSchema = new Schema({
       status: Boolean,
       url: String,
       name: String,
+      screenshot:[{
+        date: Number,
+        img: String,
+        body: String
+      }],
       clicks:[{
         x: Number,
         y: Number,
