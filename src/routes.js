@@ -12,5 +12,6 @@ router.put('/projeto', Projeto.update)
 
 router.post('/click', Click.create)
 router.post('/screenshot', Click.screenshot)
-
+router.get('/screenshot', Click.getScreenshot)
+router.get('/clicks/:id', Click.getClicks)
 module.exports = router;
