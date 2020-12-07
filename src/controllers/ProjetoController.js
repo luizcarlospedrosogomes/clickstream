@@ -39,5 +39,18 @@ module.exports = {
         const data  = req.body.data
         Projeto.findOneAndUpdate(query, data, query)
     },
+    
+    async remove(req, res){
+        const data  = req.body;        
+        const query = {"_id":data.id};
+        try {
+            const result = await Projeto.remove(query)    
+            res.status(200).json(result)
+        } catch (error) {
+            return res.status(400).json(error)
+        }
+        
+        
+    }
 
 }

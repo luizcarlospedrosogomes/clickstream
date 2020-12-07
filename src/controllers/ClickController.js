@@ -1,5 +1,13 @@
 const Projeto = require('../models/Projeto');
 
+const  writeImage = (url, base64Data) =>{
+    let path = `images/${url}/${Date.now}.png`;
+    require("fs").writeFile(path, base64Data, 'base64', function(err) {
+        if(err) return "";
+        return path;
+    });
+    
+}
 
 module.exports = {
  
@@ -15,7 +23,16 @@ module.exports = {
 
     async screenshot(req, res){
         let data  = req.body
-        let query =  {"heatMaps.url" : data.url}        
+        let query =  {"heatMaps.url" : data.url}
+        try {
+            data.path = await writeImage(data.url, data.img);    
+        } catch (error) {
+            console.log(error)
+            data.path=""
+        }
+        
+        delete data.screenshot.img  
+        console.log(data)      
         Projeto.findOneAndUpdate(query,  {$push: {"heatMaps.$.screenshot": data.screenshot}}, (error, projeto) => {
             console.log(error)
             console.log(projeto)
@@ -40,6 +57,5 @@ module.exports = {
             return res.status(400).json(error)
         }
         
-    }
-
+    },
 }
