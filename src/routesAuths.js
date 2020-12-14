@@ -15,7 +15,6 @@ router.post('/screenshot', Click.screenshot)
 router.get('/screenshot', Click.getScreenshot)
 router.get('/clicks/:id', Click.getClicks)
 
-router.post("/user", User.create)
 router.get("/user", User.listAll)
 router.get("/user/:id", User.listOne)
 router.put("/user", User.update)

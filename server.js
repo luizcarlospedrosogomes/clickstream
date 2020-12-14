@@ -4,6 +4,7 @@ const mongoose    = require('mongoose');
 const requireDir  = require('require-dir');
 const cors        = require('cors')
 const app         = express();
+const authMiddlware = require('./src/middlewares/auth');
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
@@ -26,5 +27,8 @@ mongoose
 
 requireDir('./src/models');    
 
-app.use('/api', require('./src/routes'));  
+app.use('/api', require('./src/routesAllow'));
+app.use(authMiddlware)
+app.use('/api', require('./src/routesAuths')); 
+ 
 app.listen(9000, () => console.log('Server ativo na porta 9000'));

@@ -1,23 +1,26 @@
-const bcrypt = require('bcryptjs');
-const jwt    = require('jsonwebtoken');
+const bcrypt        = require('bcryptjs');
+const jwt           = require('jsonwebtoken');
+const passport      = require('passport')
+const passportJWT   = require('passport-jwt')
+
 require("dotenv-safe").config();
 
 const User = require("../models/User");
 
 const setToken = async (id) =>{
-    
-    const tokenDefinitive = jwt.sign({ id }, process.env.SECRET);
-    const token = jwt.sign({ id }, process.env.SECRET, {expiresIn: (3600*24)})
+    const token           = jwt.sign({ id }, process.env.SECRET, {expiresIn: (3600*24)})
     try {        
         let user   = User.findById(id, function(error, user){
-            console.log(error)
-            console.log(user)
-            user.tokens.push({token: token, expired: false, expiredIn: Date.now() + (3600*24)})
-            user.save()
+            if(user){
+                user.tokens.push({token: token, expired: false, expiredIn: Date.now() + (3600*24)})
+                user.save()
+                return user;
+            }
+            return false;
         })
-        
-    } catch (error) {
-        console.log(error)
+        return user;
+    } catch (error) {  
+        console.log(error)      
         return false
     }
     
@@ -32,11 +35,13 @@ module.exports = {
         const hashPassword = bcrypt.hashSync(password, salt);
         const email        = data.email
         const token        = jwt.sign({ email }, process.env.SECRET);//jwt.sign({ email }, process.env.SECRET, {expiresIn: (3600*24)});
-
+         
         try {
             const newUser       = new User({email: data.email, password: hashPassword, name: data.name, token: token})
-            let user            = await newUser.save();              
+            const user          = await newUser.save();              
             const tokenGenerate = await setToken(user._id);
+            console.log("token generate")
+            console.log(tokenGenerate)
             if(tokenGenerate){                
                 return   res.status(200).json(user);
             }
