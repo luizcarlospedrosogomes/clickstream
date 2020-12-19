@@ -14,11 +14,11 @@ const setToken = async (id) =>{
             if(user){
                 user.tokens.push({token: token, expired: false, expiredIn: Date.now() + (3600*24)})
                 user.save()
-                return user;
+                return token;
             }
             return false;
         })
-        return user;
+        return token;
     } catch (error) {  
         console.log(error)      
         return false
@@ -52,7 +52,27 @@ module.exports = {
         }
         
     },
-    
+
+    async login(req, res){
+        const data = req.body;
+        const {email, password} = data; 
+        try {
+            const result = await User.findOne({email: email});   
+                   
+            bcrypt.compare(password, result.password, async (error, checking) => {                
+                
+                if(!checking) return res.status(401).json({msg: "usuário ou senha inválidos"});
+            
+                const token = await setToken(result._id)
+                return res.status(200).json({token: token})
+
+            })
+        } catch (error) {
+            res.status(401).json({msg: "usuário ou senha inválidos"});
+        }
+        
+    },
+
     async update(req, res){},
     async listAll(req, res){},
     async listOne(req, res){},
