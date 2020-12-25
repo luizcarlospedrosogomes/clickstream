@@ -7,10 +7,10 @@ require("dotenv-safe").config();
 
 const User = require("../models/User");
 
-const setToken = async (id) =>{
-    const token           = jwt.sign({ id }, process.env.SECRET, {expiresIn: (3600*24)})
+const setToken = async (id, email) =>{
+    const token           = jwt.sign({ id: id,  email:email }, process.env.SECRET, {expiresIn: (3600*24)})
     try {        
-        let user   = User.findById(id, function(error, user){
+        let user   = User.findById({id:id}, function(error, user){
             if(user){
                 user.tokens.push({token: token, expired: false, expiredIn: Date.now() + (3600*24)})
                 user.save()
@@ -39,7 +39,7 @@ module.exports = {
         try {
             const newUser       = new User({email: data.email, password: hashPassword, name: data.name, token: token})
             const user          = await newUser.save();              
-            const tokenGenerate = await setToken(user._id);
+            const tokenGenerate = await setToken(user._id, user.email);
             console.log("token generate")
             console.log(tokenGenerate)
             if(tokenGenerate){                
@@ -55,6 +55,7 @@ module.exports = {
 
     async login(req, res){
         const data = req.body;
+        console.log(data)
         const {email, password} = data; 
         try {
             const result = await User.findOne({email: email});   
@@ -63,7 +64,7 @@ module.exports = {
                 
                 if(!checking) return res.status(401).json({msg: "usuário ou senha inválidos"});
             
-                const token = await setToken(result._id)
+                const token = await setToken(result._id, result.email)
                 return res.status(200).json({token: token})
 
             })

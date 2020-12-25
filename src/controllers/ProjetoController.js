@@ -4,10 +4,9 @@ const Projeto = require('../models/Projeto');
 module.exports = {
 
     async list(req, res){
-        
-        const {owner, name}  = req.headers;
-        console.log(owner, name)
-        const query = Projeto.where({owner: owner, name: name})
+        console.log(req.userId)
+        console.log(req.userEmail)
+        const query = Projeto.where({owner: req.userEmail})
         try {
             const projetos = await  Projeto.findOne(query)
                                             .select('name criadoEm  heatMaps._id heatMaps.name heatMaps.status heatMaps.url')    
@@ -15,11 +14,10 @@ module.exports = {
         } catch (error) {
             return res.status(400).json(error)
         }
-        
-        
     },
 
     async create(req, res){
+        console.log(req)
         const data = req.body        
         const novoProjeto = new Projeto(data)
 
