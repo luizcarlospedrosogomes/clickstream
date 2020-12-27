@@ -12,7 +12,7 @@ router.delete('/projeto', Projeto.remove)
 
 router.post('/click', Click.create)
 router.post('/screenshot', Click.screenshot)
-router.get('/screenshot', Click.getScreenshot)
+router.get('/screenshot/:id', Click.getScreenshot)
 router.get('/clicks/:id', Click.getClicks)
 
 router.get("/user", User.listAll)

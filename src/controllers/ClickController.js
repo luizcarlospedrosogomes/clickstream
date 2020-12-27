@@ -42,16 +42,23 @@ module.exports = {
     },
 
     async getScreenshot(req, res){
-        const query = req.query;
+        const data  = req.params;        
+        const query = {"heatMaps._id":data.id};
         console.log(query)
+        try {
+            const heatMaps  = await Projeto.find(query).select("heatMaps.screenshot")  
+            console.log(heatMaps)
+            return res.status(200).json(heatMaps)
+        } catch (error) {
+            return res.status(400).json(error)
+        }
     },
 
     async getClicks(req, res){
-        const data  = req.params;
-        console.log(data)
+        const data  = req.params;        
         const query = {"heatMaps._id":data.id};
         try {
-          const heatMaps  = await Projeto.find(query).select("heatMaps.clicks")    
+          const heatMaps  = await Projeto.find(query).select("heatMaps.clicks heatMaps.screenshot")    
             return res.status(200).json(heatMaps)
         } catch (error) {
             return res.status(400).json(error)
