@@ -12,8 +12,14 @@ const heatmapSchema = new Schema({
         default: Date.now
       },
       status: Boolean,
-      url: String,
-      name: String,
+      url:{
+        type: String,
+        require: true
+      },
+      name: {
+        type: String,
+        require: true
+      },
       screenshot:[{
         date: Number,        
         path:String,

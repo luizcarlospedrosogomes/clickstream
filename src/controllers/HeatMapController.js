@@ -7,8 +7,8 @@ module.exports = {
         console.log(req.userEmail)
         const query = HeatMap.where({owner: req.userEmail})
         try {
-            const projetos = await  HeatMap.findOne(query)
-                                            .select('name criadoEm  heatMaps._id heatMaps.name heatMaps.status heatMaps.url')    
+            const projetos = await  HeatMap.find(query)
+                                            .select('name criadoEm  _id status url')    
             
             if(projetos)  return res.status(200).json(projetos);
             return res.status(404).json({msg: "Não encontrado"});
@@ -18,16 +18,21 @@ module.exports = {
     },
 
     async create(req, res){        
-        const data = req.body        
-        const novoProjeto = new HeatMap(data)
+        const data = req.body;
+                
+        if(!data.name || !data.url) return res.status(400).json({msg: "dados invalidos"})
 
+        data.owner  = req.userEmail;
+        data.status = true;
+        const novoProjeto = new HeatMap(data)
+        
         novoProjeto
             .save()
             .then(projeto =>{
-                res.status(200).json(projeto)
+                return res.status(200).json(projeto)
             })
             .catch(error =>{
-                return res.status(200).json(error)
+                return res.status(400).json(error)
             })
        // return res.status(200).json()
     },
