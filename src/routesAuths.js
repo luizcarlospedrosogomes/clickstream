@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const Projeto = require("./controllers/ProjetoController")
+const HeatMap = require("./controllers/HeatMapController")
 const Click   = require("./controllers/ClickController")
 const User    = require("./controllers/UserController")
 
-router.get('/projeto', Projeto.list)
-router.post('/projeto', Projeto.create)
-router.put('/projeto', Projeto.update)
-router.delete('/projeto', Projeto.remove)
+router.get('/heatmap', HeatMap.list)
+router.post('/heatmap', HeatMap.create)
+router.put('/heatmap', HeatMap.update)
+router.delete('/heatmap', HeatMap.remove)
 
 router.post('/click', Click.create)
 router.post('/screenshot', Click.screenshot)
