@@ -10,7 +10,7 @@ module.exports = {
             const projetos = await  HeatMap.find(query)
                                             .select('name criadoEm  _id status url')    
             
-            if(projetos)  return res.status(200).json(projetos);
+            if(projetos && projetos.length > 0)  return res.status(200).json(projetos);
             return res.status(404).json({msg: "Não encontrado"});
         } catch (error) {
             return res.status(400).json(error)
@@ -20,19 +20,20 @@ module.exports = {
     async create(req, res){        
         const data = req.body;
                 
-        if(!data.name || !data.url) return res.status(400).json({msg: "dados invalidos"})
+      //  if(!data.name || !data.url) return res.status(400).json({msg: "dados invalidos"})
 
         data.owner  = req.userEmail;
         data.status = true;
         const novoProjeto = new HeatMap(data)
-        
+        console.log(data)
         novoProjeto
             .save()
             .then(projeto =>{
                 return res.status(200).json(projeto)
             })
             .catch(error =>{
-                return res.status(400).json(error)
+                console.log(error)
+                return res.status(400).json({msg:error.Error})
             })
        // return res.status(200).json()
     },

@@ -5,7 +5,7 @@ const heatmapSchema = new Schema({
   
     owner: {
         type: String,
-        require: true
+        required: true
       },
       criadoEm: {
         type: Date,
@@ -14,11 +14,14 @@ const heatmapSchema = new Schema({
       status: Boolean,
       url:{
         type: String,
-        require: true
+        required: true,
+        //validate: [validatePresenceOf, "email required"],
+        index: {unique: true}
       },
       name: {
         type: String,
-        require: true
+        required: true
+
       },
       screenshot:[{
         date: Number,        

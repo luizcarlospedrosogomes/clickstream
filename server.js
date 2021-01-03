@@ -21,6 +21,14 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors())
+app.use(function(req, res, next) { 
+    if (/.*\.js/.test(req.path)) { 
+      res.charset = "utf-8";
+     } 
+    next(); 
+}); 
+console.log(__dirname)
+app.use(express.static('public'));
 
 mongoose
   .connect('mongodb://db:27017/crud-node-mongo-docker', {

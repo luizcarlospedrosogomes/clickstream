@@ -59,7 +59,7 @@ module.exports = {
         const {email, password} = data; 
         try {
             const result = await User.findOne({email: email});   
-                   
+            console.log(result)
             bcrypt.compare(password, result.password, async (error, checking) => {                
                 
                 if(!checking) return res.status(401).json({msg: "usuário ou senha inválidos"});
